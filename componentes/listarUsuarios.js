@@ -1,8 +1,10 @@
 import { FlatList, View, Text, ActivityIndicator } from "react-native";
 import CardUsuario from "./cardUsuario";
 import styles from "../estilos/estilos";
+import { ScrollView } from "react-native-web";
 
 export default function ListarUsuarios({ db, loading, onDelete, onEdit }) {
+ 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -32,7 +34,7 @@ export default function ListarUsuarios({ db, loading, onDelete, onEdit }) {
           onEdit={onEdit}
         />
       )}
-      scrollEnabled={false}
+      scrollEnabled={true}
     />
   );
 }

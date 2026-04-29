@@ -23,28 +23,22 @@
   ],
   "produtos": [
     {
-      "nome": "SDADSAD",
-      "categoria": "ASDSAD",
-      "preco": 50,
-      "id": "StPTofQy_r4"
-    },
-    {
-      "nome": "ASDA",
-      "categoria": "ASDASD",
+      "nome": "ccc",
+      "categoria": "ccc",
       "preco": 5,
-      "id": "jhuo9X8VBNU"
+      "id": "i198Ndu_Ylk"
     },
     {
-      "nome": "CC",
-      "categoria": "CSACA",
+      "nome": "casca",
+      "categoria": "casc",
       "preco": 3,
-      "id": "Y12qIXNb-qs"
+      "id": "pLjLXUt9djk"
     },
     {
-      "nome": "ASDA",
-      "categoria": "WDADS",
-      "preco": 2,
-      "id": "R3m-4QyFI00"
+      "nome": "asc",
+      "categoria": "asc",
+      "preco": 22,
+      "id": "c3CEAosrRUY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
