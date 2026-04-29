@@ -6,8 +6,8 @@ import styles from "../estilos/estilos";
 export default function Header() {
     return (
         <View style={styles.header}>
-            <Text style={styles.headerTitle}>Gestão de Dados</Text>
-            <Text style={styles.headerSubtitle}>Usuários e Produtos</Text>
+            <Text style={styles.headerTitle}> We Win</Text>
+            <Text style={styles.headerSubtitle}>Cadastre-se e Gerencie seus Produtos</Text>
         </View>
     );
 }
