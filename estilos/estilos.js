@@ -23,22 +23,21 @@ const styles = StyleSheet.create({
   },
 
   scrollContainer: {
-    flexGrow: 1,
+    flexGrow: 2,
     paddingBottom: 80,
   },
 
   screenWrapper: {
-    flex: 1,
+    flex: 2,
     backgroundColor: colors.background,
   },
 
   // Header
   header: {
     backgroundColor: colors.primary,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -47,30 +46,32 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: '700',
     color: colors.white,
+    alignItems: 'center',
   },
 
   headerSubtitle: {
-    fontSize: 12,
+    fontSize: 14,
     color: 'rgba(255,255,255,0.8)',
     marginTop: 4,
+    alignItems: 'center',
   },
 
   // Cards
   card: {
-    backgroundColor: colors.white,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    borderRadius: 2,
+    padding: 20,
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 2,
     elevation: 2,
     borderLeftWidth: 4,
     borderLeftColor: colors.primary,
+    backgroundColor: colors.amber,
   },
 
   cardHeader: {
