@@ -1,0 +1,51 @@
+{
+  "usuarios": [
+    {
+      "id": "3",
+      "nome": "Joacir",
+      "email": "joel@bol.com"
+    },
+    {
+      "id": "6",
+      "nome": "Clara",
+      "email": "Clara@gmail.com"
+    },
+    {
+      "id": "Wx1wQPUrvpE",
+      "nome": "Kleito",
+      "email": "Kl@bol.com"
+    },
+    {
+      "nome": "duda",
+      "email": "ddadasda@aa.com",
+      "id": "uBJf5sNveI4"
+    }
+  ],
+  "produtos": [
+    {
+      "nome": "SDADSAD",
+      "categoria": "ASDSAD",
+      "preco": 50,
+      "id": "StPTofQy_r4"
+    },
+    {
+      "nome": "ASDA",
+      "categoria": "ASDASD",
+      "preco": 5,
+      "id": "jhuo9X8VBNU"
+    },
+    {
+      "nome": "CC",
+      "categoria": "CSACA",
+      "preco": 3,
+      "id": "Y12qIXNb-qs"
+    },
+    {
+      "nome": "ASDA",
+      "categoria": "WDADS",
+      "preco": 2,
+      "id": "R3m-4QyFI00"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
