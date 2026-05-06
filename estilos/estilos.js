@@ -19,17 +19,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    padding: 16,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
   },
 
   scrollContainer: {
-    flexGrow: 2,
+    flexGrow: 1,
     paddingBottom: 80,
   },
 
   screenWrapper: {
-    flex: 2,
+    flex: 1,
     backgroundColor: colors.background,
+    flexDirection: 'column',
   },
 
   // Header
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderLeftWidth: 4,
     borderLeftColor: colors.primary,
-    backgroundColor: colors.amber,
+    backgroundColor: colors.white,
   },
 
   cardHeader: {
@@ -82,13 +84,14 @@ const styles = StyleSheet.create({
   },
 
   cardId: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
-    color: colors.textLight,
+    color: colors.primary,
     backgroundColor: colors.background,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     borderRadius: 6,
+    maxWidth: '70%',
   },
 
   cardLabel: {

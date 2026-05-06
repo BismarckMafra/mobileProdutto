@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ScrollView } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import styles from "../estilos/estilos";
 
 export default function CardProduto({ props, onDelete, onEdit }) {

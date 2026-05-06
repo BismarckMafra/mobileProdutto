@@ -7,11 +7,11 @@ export default function CadastroScreen({ navigation }) {
   return (
     <View style={styles.screenWrapper}>
       <Header title="Cadastro de Usuário" subtitle="Adicione um novo usuário" />
-      <ScrollView style={styles.container}>
+      <ScrollView style={[styles.container, { paddingHorizontal: 16 }]} contentContainerStyle={{ flexGrow: 1, paddingBottom: 80 }}>
         <Cadastro />
       </ScrollView>
       <TouchableOpacity
-        style={[styles.button, { position: 'absolute', bottom: 20, left: 16, right: 16, zIndex: 10 }]}
+        style={[styles.button, { marginHorizontal: 16, marginBottom: 16 }]}
         onPress={() => navigation.goBack()}
       >
         <Text style={styles.buttonText}>← Voltar</Text>

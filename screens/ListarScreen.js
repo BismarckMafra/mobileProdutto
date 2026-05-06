@@ -55,9 +55,8 @@ export default function ListarScreen({ navigation }) {
         onDelete={handleDelete}
         onEdit={handleEdit}
       />
-
       <TouchableOpacity
-        style={[styles.button, { position: 'absolute', bottom: 20, left: 16, right: 16, zIndex: 10 }]}
+        style={[styles.button, { marginHorizontal: 16, marginBottom: 16 }]}
         onPress={() => navigation.goBack()}
       >
         <Text style={styles.buttonText}>← Voltar</Text>

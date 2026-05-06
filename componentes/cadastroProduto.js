@@ -2,6 +2,7 @@ import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } fro
 import styles from "../estilos/estilos";
 import { useState } from "react";
 import { apiService } from "../services/api";
+import {Produto} from "@lib/produtoService";
 
 export default function CadastroProduto() {
     const [produto, setProduto] = useState({ nome: '', categoria: '', preco: '' });
@@ -100,3 +101,4 @@ export default function CadastroProduto() {
         </View>
     );
 }
+

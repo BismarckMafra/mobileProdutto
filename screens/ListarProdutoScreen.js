@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text, SafeAreaView } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { useEffect, useState } from 'react';
 import ListarProdutos from '../componentes/listarProduto';
 import styles from '../estilos/estilos';
@@ -47,35 +47,24 @@ export default function ListarProdutoScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <Header title="Produtos" subtitle={`Total: ${produtos.length} registros`} />
+    <View style={styles.screenWrapper}>
+      <Header title="Produtos" subtitle={`Total: ${produtos.length} registros`} />
 
-        <View style={{ flex: 2 }}>
-          <ListarProdutos
-            db={produtos}
-            onDelete={excluirProduto}
-            onEdit={editarProduto}
-            loading={loading}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        </View>
+      <ListarProdutos
+        db={produtos}
+        onDelete={excluirProduto}
+        onEdit={editarProduto}
+        loading={loading}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
 
-        {/* wrapper com pointerEvents para não bloquear gestos da lista */}
-        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} pointerEvents="box-none">
-          <TouchableOpacity
-            style={[
-              styles.button,
-              { marginHorizontal: 16, marginBottom: 20 }
-            ]}
-            onPress={() => navigation.goBack()}
-            pointerEvents="auto"
-          >
-            <Text style={styles.buttonText}>← Voltar</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+      <TouchableOpacity
+        style={[styles.button, { marginHorizontal: 16, marginBottom: 16 }]}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.buttonText}>← Voltar</Text>
+      </TouchableOpacity>
+    </View>
   );
 }

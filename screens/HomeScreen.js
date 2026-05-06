@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.screenWrapper}>
       <Header title="Gestão de Dados" subtitle="Usuários e Produtos" />
       
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={true}>
+      <ScrollView style={[styles.container, { paddingHorizontal: 16 }]} showsVerticalScrollIndicator={true} contentContainerStyle={{ flexGrow: 1 }}>
         {/* Seção de Usuários */}
         <View style={[styles.formContainer, { marginTop: 8 }]}>
           <Text style={styles.formTitle}>👥 Gerenciar Usuários</Text>
