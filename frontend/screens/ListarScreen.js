@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ListarUsuarios from '../componentes/listarUsuarios';
 import styles from '../estilos/estilos';
 import Header from '../componentes/header';
-import { usuariosService } from '../services/backend/usuariosService';
+import { usuariosService } from '../../services/backend/usuariosService';
 
 export default function ListarScreen({ navigation }) {
   const [users, setUsers] = useState([]);

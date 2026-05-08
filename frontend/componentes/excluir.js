@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { usuariosService } from "../services/backend/usuariosService";
+import { usuariosService } from "../../services/backend/usuariosService";
 
 export default function Excluir() {
     const [userId, setUserId] = useState('');
@@ -11,6 +11,7 @@ export default function Excluir() {
 
     const carregarUsuario = async () => {
         if (!userId.trim()) {
+            Alert.alert('❌ Erro', 'Por favor, informe o ID do usuário');
             setErrors({ userId: 'ID é obrigatório' });
             return;
         }
@@ -23,11 +24,11 @@ export default function Excluir() {
                 setUser(foundUser);
                 setErrors({});
             } else {
-                Alert.alert('Erro', 'Usuário não encontrado');
+                Alert.alert('❌ Não Encontrado', `Nenhum usuário encontrado com ID: ${userId}`);
                 setUser(null);
             }
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar usuário');
+            Alert.alert('❌ Erro ao Carregar', `Motivo: ${error.message || 'Falha ao carregar usuário'}`);
         } finally {
             setLoading(false);
         }
@@ -35,8 +36,8 @@ export default function Excluir() {
 
     const excluirUsuario = async () => {
         Alert.alert(
-            'Confirmar exclusão',
-            `Tem certeza que deseja excluir ${user.nome}?`,
+            '⚠️ Confirmar Exclusão',
+            `Tem certeza que deseja excluir o usuário "${user.nome}" (ID: ${user.id})?\n\nEsta ação não pode ser desfeita.`,
             [
                 { text: 'Cancelar', style: 'cancel' },
                 {
@@ -46,11 +47,21 @@ export default function Excluir() {
                         setLoading(true);
                         try {
                             await usuariosService.deletar(userId);
-                            Alert.alert('Sucesso', 'Usuário excluído com sucesso!');
-                            setUserId('');
-                            setUser(null);
+                            Alert.alert(
+                                '✅ Sucesso',
+                                `Usuário "${user.nome}" foi excluído com sucesso!`,
+                                [
+                                    {
+                                        text: 'OK',
+                                        onPress: () => {
+                                            setUserId('');
+                                            setUser(null);
+                                        }
+                                    }
+                                ]
+                            );
                         } catch (error) {
-                            Alert.alert('Erro', 'Falha ao excluir usuário');
+                            Alert.alert('❌ Erro ao Excluir', `Motivo: ${error.message || 'Falha ao excluir usuário'}`);
                         } finally {
                             setLoading(false);
                         }

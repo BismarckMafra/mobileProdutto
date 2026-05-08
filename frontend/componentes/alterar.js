@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { usuariosService } from "../services/backend/usuariosService";
+import { usuariosService } from "../../services/backend/usuariosService";
 
 export default function Alterar() {
     const [userId, setUserId] = useState('');
@@ -12,6 +12,7 @@ export default function Alterar() {
 
     const carregarUsuario = async () => {
         if (!userId.trim()) {
+            Alert.alert('❌ Erro', 'Por favor, informe o ID do usuário');
             setErrors({ userId: 'ID é obrigatório' });
             return;
         }
@@ -25,11 +26,11 @@ export default function Alterar() {
                 setLoaded(true);
                 setErrors({});
             } else {
-                Alert.alert('Erro', 'Usuário não encontrado');
+                Alert.alert('❌ Não Encontrado', `Nenhum usuário encontrado com ID: ${userId}`);
                 setLoaded(false);
             }
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar usuário');
+            Alert.alert('❌ Erro ao Carregar', `Motivo: ${error.message || 'Falha ao carregar usuário'}`);
         } finally {
             setLoading(false);
         }
@@ -52,12 +53,22 @@ export default function Alterar() {
         setLoading(true);
         try {
             await usuariosService.atualizar(userId, { nome: user.nome, email: user.email });
-            Alert.alert('Sucesso', 'Usuário atualizado com sucesso!');
-            setUserId('');
-            setUser({ nome: '', email: '' });
-            setLoaded(false);
+            Alert.alert(
+                '✅ Sucesso',
+                `Usuário ID ${userId} atualizado com sucesso!`,
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            setUserId('');
+                            setUser({ nome: '', email: '' });
+                            setLoaded(false);
+                        }
+                    }
+                ]
+            );
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao atualizar usuário');
+            Alert.alert('❌ Erro ao Atualizar', `Motivo: ${error.message || 'Falha ao atualizar usuário'}`);
         } finally {
             setLoading(false);
         }

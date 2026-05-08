@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ListarProdutos from '../componentes/listarProduto';
 import styles from '../estilos/estilos';
 import Header from '../componentes/header';
-import { produtosService } from '../services/backend/produtosService';
+import { produtosService } from '../../services/backend/produtosService';
 
 export default function ListarProdutoScreen({ navigation }) {
   const [produtos, setProdutos] = useState([]);

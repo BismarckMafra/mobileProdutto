@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useEffect, useState } from "react";
-import { usuariosService } from "../services/backend/usuariosService";
+import { usuariosService } from "../../services/backend/usuariosService";
 
 export default function Cadastro() {
     const [user, setUser] = useState({ nome: '', email: '' });
@@ -24,11 +24,25 @@ export default function Cadastro() {
 
         setLoading(true);
         try {
-            await usuariosService.criar({ nome: user.nome, email: user.email });
-            Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
-            setUser({ nome: '', email: '' });
+            const response = await usuariosService.criar({ nome: user.nome, email: user.email });
+            Alert.alert(
+                '✅ Sucesso',
+                `Usuário "${user.nome}" cadastrado com sucesso!`,
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            setUser({ nome: '', email: '' });
+                        }
+                    }
+                ]
+            );
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao cadastrar usuário');
+            Alert.alert(
+                '❌ Erro ao Cadastrar',
+                `Motivo: ${error.message || 'Falha ao cadastrar usuário. Verifique sua conexão.'}`,
+                [{ text: 'OK' }]
+            );
         } finally {
             setLoading(false);
         }

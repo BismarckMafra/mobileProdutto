@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { produtosService } from "../services/backend/produtosService";
+import { produtosService } from "../../services/backend/produtosService";
 
 export default function ExcluirProduto() {
     const [produtoId, setProdutoId] = useState('');
@@ -11,6 +11,7 @@ export default function ExcluirProduto() {
 
     const carregarProduto = async () => {
         if (!produtoId.trim()) {
+            Alert.alert('❌ Erro', 'Por favor, informe o ID do produto');
             setErrors({ produtoId: 'ID é obrigatório' });
             return;
         }
@@ -23,11 +24,11 @@ export default function ExcluirProduto() {
                 setProduto(foundProduto);
                 setErrors({});
             } else {
-                Alert.alert('Erro', 'Produto não encontrado');
+                Alert.alert('❌ Não Encontrado', `Nenhum produto encontrado com ID: ${produtoId}`);
                 setProduto(null);
             }
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar produto');
+            Alert.alert('❌ Erro ao Carregar', `Motivo: ${error.message || 'Falha ao carregar produto'}`);
         } finally {
             setLoading(false);
         }
@@ -35,8 +36,8 @@ export default function ExcluirProduto() {
 
     const excluirProduto = async () => {
         Alert.alert(
-            'Confirmar exclusão',
-            `Tem certeza que deseja excluir ${produto.nome}?`,
+            '⚠️ Confirmar Exclusão',
+            `Tem certeza que deseja excluir o produto "${produto.nome}" (ID: ${produto.id})?\n\nEsta ação não pode ser desfeita.`,
             [
                 { text: 'Cancelar', style: 'cancel' },
                 {
@@ -46,11 +47,21 @@ export default function ExcluirProduto() {
                         setLoading(true);
                         try {
                             await produtosService.deletar(produtoId);
-                            Alert.alert('Sucesso', 'Produto excluído com sucesso!');
-                            setProdutoId('');
-                            setProduto(null);
+                            Alert.alert(
+                                '✅ Sucesso',
+                                `Produto "${produto.nome}" foi excluído com sucesso!`,
+                                [
+                                    {
+                                        text: 'OK',
+                                        onPress: () => {
+                                            setProdutoId('');
+                                            setProduto(null);
+                                        }
+                                    }
+                                ]
+                            );
                         } catch (error) {
-                            Alert.alert('Erro', 'Falha ao excluir produto');
+                            Alert.alert('❌ Erro ao Excluir', `Motivo: ${error.message || 'Falha ao excluir produto'}`);
                         } finally {
                             setLoading(false);
                         }

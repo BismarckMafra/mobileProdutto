@@ -1,0 +1,36 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "João Silva",
+      "email": "joao@email.com",
+      "telefone": "11999999999",
+      "data": "2024-01-15"
+    },
+    {
+      "id": 2,
+      "nome": "Maria Santos",
+      "email": "maria@email.com",
+      "telefone": "11988888888",
+      "data": "2024-01-16"
+    }
+  ],
+  "produtos": [
+    {
+      "id": 1,
+      "nome": "Notebook",
+      "categoria": "Eletrônicos",
+      "preco": "2500.00",
+      "descricao": "Notebook Intel i7",
+      "data": "2024-01-15"
+    },
+    {
+      "id": 2,
+      "nome": "Mouse",
+      "categoria": "Periféricos",
+      "preco": "50.00",
+      "descricao": "Mouse óptico sem fio",
+      "data": "2024-01-16"
+    }
+  ]
+}

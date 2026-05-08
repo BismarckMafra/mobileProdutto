@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { produtosService } from "../services/backend/produtosService";
+import { produtosService } from "../../services/backend/produtosService";
 
 export default function CadastroProduto() {
     const [produto, setProduto] = useState({ nome: '', categoria: '', preco: '' });
@@ -33,10 +33,24 @@ export default function CadastroProduto() {
                 categoria: produto.categoria,
                 preco: parseFloat(produto.preco)
             });
-            Alert.alert('Sucesso', 'Produto cadastrado com sucesso!');
-            setProduto({ nome: '', categoria: '', preco: '' });
+            Alert.alert(
+                '✅ Sucesso',
+                `Produto "${produto.nome}" cadastrado com sucesso!\nPreço: R$ ${parseFloat(produto.preco).toFixed(2)}`,
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            setProduto({ nome: '', categoria: '', preco: '' });
+                        }
+                    }
+                ]
+            );
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao cadastrar produto');
+            Alert.alert(
+                '❌ Erro ao Cadastrar Produto',
+                `Motivo: ${error.message || 'Falha ao cadastrar produto. Verifique sua conexão.'}`,
+                [{ text: 'OK' }]
+            );
         } finally {
             setLoading(false);
         }

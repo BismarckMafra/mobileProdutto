@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { produtosService } from "../services/backend/produtosService";
+import { produtosService } from "../../services/backend/produtosService";
 
 export default function AlterarProduto({ initialId }) {
     const [produtoId, setProdutoId] = useState(initialId ? initialId.toString() : '');
@@ -12,6 +12,7 @@ export default function AlterarProduto({ initialId }) {
 
     const carregarProduto = async () => {
         if (!produtoId.trim()) {
+            Alert.alert('❌ Erro', 'Por favor, informe o ID do produto');
             setErrors({ produtoId: 'ID é obrigatório' });
             return;
         }
@@ -29,11 +30,11 @@ export default function AlterarProduto({ initialId }) {
                 setLoaded(true);
                 setErrors({});
             } else {
-                Alert.alert('Erro', 'Produto não encontrado');
+                Alert.alert('❌ Não Encontrado', `Nenhum produto encontrado com ID: ${produtoId}`);
                 setLoaded(false);
             }
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar produto');
+            Alert.alert('❌ Erro ao Carregar', `Motivo: ${error.message || 'Falha ao carregar produto'}`);
         } finally {
             setLoading(false);
         }
@@ -64,12 +65,22 @@ export default function AlterarProduto({ initialId }) {
                 categoria: produto.categoria,
                 preco: parseFloat(produto.preco)
             });
-            Alert.alert('Sucesso', 'Produto atualizado com sucesso!');
-            setProdutoId('');
-            setProduto({ nome: '', categoria: '', preco: '' });
-            setLoaded(false);
+            Alert.alert(
+                '✅ Sucesso',
+                `Produto ID ${produtoId} atualizado com sucesso!\nNovo preço: R$ ${parseFloat(produto.preco).toFixed(2)}`,
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            setProdutoId('');
+                            setProduto({ nome: '', categoria: '', preco: '' });
+                            setLoaded(false);
+                        }
+                    }
+                ]
+            );
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao atualizar produto');
+            Alert.alert('❌ Erro ao Atualizar', `Motivo: ${error.message || 'Falha ao atualizar produto'}`);
         } finally {
             setLoading(false);
         }
