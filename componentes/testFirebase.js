@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, Text, ActivityIndicator, ScrollView, Alert } from 'react-native';
 import { useState } from 'react';
 import styles from '../estilos/estilos';
+import { firebaseTestService } from '../services/firebase/firebaseTestService';
 
 /**
  * Componente de Teste Firebase
@@ -17,14 +18,24 @@ export default function TestFirebase() {
 
     try {
       // Teste 1: Importar módulo Firebase
-      results.push({
-        teste: 'Importação do Firebase',
-        status: '✅ Sucesso',
-      });
+      try {
+        if (!firebaseTestService) {
+          throw new Error('Módulo firebaseTestService não encontrado');
+        }
+        results.push({
+          teste: 'Importação do Firebase',
+          status: '✅ Sucesso',
+        });
+      } catch (importError) {
+        results.push({
+          teste: 'Importação do Firebase',
+          status: '❌ Falha',
+          erro: importError.message,
+        });
+      }
 
       // Teste 2: Tentar inicializar Firebase
       try {
-        const { firebaseTestService } = await import('../services/firebase/firebaseTestService');
         const conexaoResult = await firebaseTestService.testarConexao();
         
         results.push({
