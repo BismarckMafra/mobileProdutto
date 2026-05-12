@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useEffect, useState } from "react";
-import { usuariosService } from "../services/backend/usuariosService";
+import { firebaseUsuariosService } from "../services/firebase/firebaseUsuariosService";
 
 export default function Cadastro() {
     const [user, setUser] = useState({ nome: '', email: '' });
@@ -24,11 +24,19 @@ export default function Cadastro() {
 
         setLoading(true);
         try {
-            await usuariosService.criar({ nome: user.nome, email: user.email });
-            Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
-            setUser({ nome: '', email: '' });
+            console.log('� Enviando usuário para Firebase:', { nome: user.nome, email: user.email });
+            const resultado = await firebaseUsuariosService.criar({ nome: user.nome, email: user.email });
+            console.log('✅ Usuário criado no Firebase:', resultado);
+            Alert.alert('✓ Sucesso', 'Usuário cadastrado com sucesso no Firebase!', [
+                { text: 'OK', onPress: () => setUser({ nome: '', email: '' }) }
+            ]);
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao cadastrar usuário');
+            console.error('❌ Erro detalhado:', error);
+            Alert.alert(
+                '❌ Erro ao Cadastrar',
+                `Falha: ${error.message || 'Verifique a conexão com Firebase'}`,
+                [{ text: 'OK' }]
+            );
         } finally {
             setLoading(false);
         }

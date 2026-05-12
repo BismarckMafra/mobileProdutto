@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { usuariosService } from "../services/backend/usuariosService";
+import { firebaseUsuariosService } from "../services/firebase/firebaseUsuariosService";
 
 export default function Excluir() {
     const [userId, setUserId] = useState('');
@@ -17,17 +17,12 @@ export default function Excluir() {
 
         setLoading(true);
         try {
-            const response = await usuariosService.listar();
-            const foundUser = response.find(u => u.id.toString() === userId);
-            if (foundUser) {
-                setUser(foundUser);
-                setErrors({});
-            } else {
-                Alert.alert('Erro', 'Usuário não encontrado');
-                setUser(null);
-            }
+            const foundUser = await firebaseUsuariosService.obterPorId(userId);
+            setUser(foundUser);
+            setErrors({});
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar usuário');
+            Alert.alert('Erro', 'Usuário não encontrado ou erro ao carregar');
+            setUser(null);
         } finally {
             setLoading(false);
         }
@@ -45,7 +40,7 @@ export default function Excluir() {
                     onPress: async () => {
                         setLoading(true);
                         try {
-                            await usuariosService.deletar(userId);
+                            await firebaseUsuariosService.deletar(userId);
                             Alert.alert('Sucesso', 'Usuário excluído com sucesso!');
                             setUserId('');
                             setUser(null);

@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { usuariosService } from "../services/backend/usuariosService";
+import { firebaseUsuariosService } from "../services/firebase/firebaseUsuariosService";
 
 export default function Alterar() {
     const [userId, setUserId] = useState('');
@@ -18,18 +18,13 @@ export default function Alterar() {
 
         setLoading(true);
         try {
-            const response = await usuariosService.listar();
-            const foundUser = response.find(u => u.id.toString() === userId);
-            if (foundUser) {
-                setUser({ nome: foundUser.nome, email: foundUser.email });
-                setLoaded(true);
-                setErrors({});
-            } else {
-                Alert.alert('Erro', 'Usuário não encontrado');
-                setLoaded(false);
-            }
+            const foundUser = await firebaseUsuariosService.obterPorId(userId);
+            setUser({ nome: foundUser.nome, email: foundUser.email });
+            setLoaded(true);
+            setErrors({});
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar usuário');
+            Alert.alert('Erro', 'Usuário não encontrado ou erro ao carregar');
+            setLoaded(false);
         } finally {
             setLoading(false);
         }
@@ -51,7 +46,7 @@ export default function Alterar() {
 
         setLoading(true);
         try {
-            await usuariosService.atualizar(userId, { nome: user.nome, email: user.email });
+            await firebaseUsuariosService.atualizar(userId, { nome: user.nome, email: user.email });
             Alert.alert('Sucesso', 'Usuário atualizado com sucesso!');
             setUserId('');
             setUser({ nome: '', email: '' });

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ListarUsuarios from '../componentes/listarUsuarios';
 import styles from '../estilos/estilos';
 import Header from '../componentes/header';
-import { usuariosService } from '../services/backend/usuariosService';
+import { firebaseUsuariosService } from '../services/firebase/firebaseUsuariosService';
 
 export default function ListarScreen({ navigation }) {
   const [users, setUsers] = useState([]);
@@ -12,7 +12,7 @@ export default function ListarScreen({ navigation }) {
 
   const fetchUsuarios = async () => {
     try {
-      const data = await usuariosService.listar();
+      const data = await firebaseUsuariosService.listar();
       setUsers(data);
     } catch (error) {
       console.error('Erro ao buscar usuários:', error);
@@ -35,7 +35,7 @@ export default function ListarScreen({ navigation }) {
 
   const handleDelete = async (id) => {
     try {
-      await usuariosService.deletar(id);
+      await firebaseUsuariosService.deletar(id);
       setUsers(users.filter(user => user.id !== id));
     } catch (error) {
       console.error('Erro ao deletar:', error);
