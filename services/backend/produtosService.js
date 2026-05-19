@@ -104,3 +104,5 @@ export const produtosService = {
     }
   },
 };
+
+export const firebaseProdutosService = produtosService;

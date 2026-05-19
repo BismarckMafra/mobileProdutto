@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ListarProdutos from '../componentes/listarProduto';
 import styles from '../estilos/estilos';
 import Header from '../componentes/header';
-import { produtosService } from '../../services/backend/produtosService';
+import { firebaseProdutosService } from '../../services/firebase/firebaseProdutosService.js';
 
 export default function ListarProdutoScreen({ navigation }) {
   const [produtos, setProdutos] = useState([]);
@@ -12,7 +12,7 @@ export default function ListarProdutoScreen({ navigation }) {
 
   const fetchProdutos = async () => {
     try {
-      const data = await produtosService.listar();
+      const data = await firebaseProdutosService.listar();
       setProdutos(data);
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);
@@ -35,7 +35,7 @@ export default function ListarProdutoScreen({ navigation }) {
 
   const excluirProduto = async (id) => {
     try {
-      await produtosService.deletar(id);
+      await firebaseProdutosService.deletar(id);
       setProdutos(prev => prev.filter(p => p.id !== id));
     } catch (error) {
       console.error('Erro ao deletar:', error);

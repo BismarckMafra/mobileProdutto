@@ -1,34 +1,10 @@
-import { FlatList, View, Text, ActivityIndicator, ScrollView } from "react-native";
-import CardProduto from "./cardProduto";
+import { FlatList, View, Text, ActivityIndicator } from "react-native";
+import CardUsuario from "./cardProduto";
 import styles from "../estilos/estilos";
-import { useState } from "react";
+import CardProduto from "./cardProduto";
 
-interface Produto {
-  id: number;
-  nome: string;
-  categoria: string;
-  preco: string | number;
-  descricao?: string;
-  data?: string;
-}
-
-interface ListaProdutosProps {
-  db: Produto[];
-  loading: boolean;
-  refreshing?: boolean;
-  onRefresh?: () => void;
-  onDelete: (id: number) => void;
-  onEdit: (id: number) => void;
-}
-
-export default function ListarProdutos({
-  db,
-  loading,
-  onDelete,
-  onEdit,
-  refreshing = false,
-  onRefresh,
-}: ListaProdutosProps) {
+export default function ListarProdutos({ db, loading, onDelete, onEdit }) {
+ 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -41,7 +17,7 @@ export default function ListarProdutos({
   if (!db || db.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={{ fontSize: 48, marginBottom: 12 }}>🛍️</Text>
+        <Text style={{ fontSize: 48, marginBottom: 12 }}>�</Text>
         <Text style={styles.emptyText}>Nenhum produto cadastrado</Text>
       </View>
     );
@@ -61,11 +37,7 @@ export default function ListarProdutos({
           />
         )}
         contentContainerStyle={{ paddingVertical: 8 }}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
       />
     </View>
   );
 }
-
-

@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
-import { useState } from "react";
-import { produtosService } from "../services/backend/produtosService";
+import { useEffect, useState } from "react";
+import { firebaseProdutosService } from "../services/firebase/firebaseProdutosService";
 
 export default function CadastroProduto() {
     const [produto, setProduto] = useState({ nome: '', categoria: '', preco: '' });
@@ -23,20 +23,24 @@ export default function CadastroProduto() {
     const adicionarProduto = async () => {
         const newErrors = validateForm();
         setErrors(newErrors);
-
+        
         if (Object.keys(newErrors).length > 0) return;
 
         setLoading(true);
         try {
-            await produtosService.criar({
-                nome: produto.nome,
-                categoria: produto.categoria,
-                preco: parseFloat(produto.preco)
-            });
-            Alert.alert('Sucesso', 'Produto cadastrado com sucesso!');
-            setProduto({ nome: '', categoria: '', preco: '' });
+            console.log(' Enviando produto para Firebase:', { nome: produto.nome, categoria: produto.categoria, preco: produto.preco });
+            const resultado = await firebaseProdutosService.criar({ nome: produto.nome, categoria: produto.categoria, preco: parseFloat(produto.preco) });
+            console.log('✅ Produto criado no Firebase:', resultado);
+            Alert.alert('✓ Sucesso', 'Produto cadastrado com sucesso no Firebase!', [
+                { text: 'OK', onPress: () => setProduto({ nome: '', categoria: '', preco: '' }) }
+            ]);
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao cadastrar produto');
+            console.error('❌ Erro detalhado:', error);
+            Alert.alert(
+                '❌ Erro ao Cadastrar',
+                `Falha: ${error.message || 'Verifique a conexão com Firebase'}`,
+                [{ text: 'OK' }]
+            );
         } finally {
             setLoading(false);
         }
@@ -44,12 +48,12 @@ export default function CadastroProduto() {
 
     return (
         <View style={styles.formContainer}>
-            <Text style={styles.formTitle}>🛍️ Novo Produto</Text>
+            <Text style={styles.formTitle}>📝 Novo Produto</Text>
 
-            <Text style={styles.cardLabel}>Nome do Produto</Text>
+            <Text style={styles.cardLabel}>Nome</Text>
             <TextInput
                 style={[styles.input, errors.nome && styles.inputError]}
-                placeholder="Ex: Notebook, Mouse..."
+                placeholder="Digite o nome do produto"
                 value={produto.nome}
                 onChangeText={(text) => {
                     setProduto({ ...produto, nome: text });
@@ -62,7 +66,7 @@ export default function CadastroProduto() {
             <Text style={styles.cardLabel}>Categoria</Text>
             <TextInput
                 style={[styles.input, errors.categoria && styles.inputError]}
-                placeholder="Ex: Eletrônicos, Alimentos..."
+                placeholder="Digite a categoria do produto"
                 value={produto.categoria}
                 onChangeText={(text) => {
                     setProduto({ ...produto, categoria: text });
@@ -72,19 +76,26 @@ export default function CadastroProduto() {
             />
             {errors.categoria && <Text style={styles.errorText}>{errors.categoria}</Text>}
 
-            <Text style={styles.cardLabel}>Preço (R$)</Text>
+            <Text style={styles.cardLabel}>Preço</Text>
             <TextInput
                 style={[styles.input, errors.preco && styles.inputError]}
-                placeholder="0.00"
+                placeholder="Digite o preço do produto"
                 value={produto.preco}
                 onChangeText={(text) => {
                     setProduto({ ...produto, preco: text });
                     if (errors.preco) setErrors({ ...errors, preco: '' });
                 }}
-                keyboardType="decimal-pad"
                 editable={!loading}
+                keyboardType="numeric"
             />
             {errors.preco && <Text style={styles.errorText}>{errors.preco}</Text>}
+                value={user.email}
+                onChangeText={(text) => {
+                    setUser({ ...user, email: text });
+                    if (errors.email) setErrors({ ...errors, email: '' });
+                }}
+                keyboardType="email-address"
+                editable={!loading}
 
             <TouchableOpacity
                 style={[styles.button, loading && { opacity: 0.6 }]}
@@ -100,4 +111,3 @@ export default function CadastroProduto() {
         </View>
     );
 }
-

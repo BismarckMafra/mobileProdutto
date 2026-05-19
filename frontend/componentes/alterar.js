@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { usuariosService } from "../../services/backend/usuariosService";
+import { firebaseUsuariosService as usuariosService } from "../../services/firebase/firebaseUsuariosService";
 
 export default function Alterar() {
     const [userId, setUserId] = useState('');

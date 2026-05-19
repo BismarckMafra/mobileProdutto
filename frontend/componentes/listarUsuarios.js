@@ -1,6 +1,7 @@
 import { FlatList, View, Text, ActivityIndicator } from "react-native";
 import CardUsuario from "./cardUsuario";
 import styles from "../estilos/estilos";
+import { firebaseUsuariosService } from "../../services/firebase/firebaseUsuariosService";
 
 export default function ListarUsuarios({ db, loading, onDelete, onEdit }) {
  

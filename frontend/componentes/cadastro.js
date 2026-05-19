@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useEffect, useState } from "react";
-import { usuariosService } from "../../services/backend/usuariosService";
+import { firebaseUsuariosService as usuariosService } from "../../services/firebase/firebaseUsuariosService";
 
 export default function Cadastro() {
     const [user, setUser] = useState({ nome: '', email: '' });

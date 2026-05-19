@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { produtosService } from "../../services/backend/produtosService";
+import { firebaseProdutosService } from "../../services/firebase/firebaseProdutosService";
 
 export default function ExcluirProduto() {
     const [produtoId, setProdutoId] = useState('');
@@ -16,19 +16,14 @@ export default function ExcluirProduto() {
             return;
         }
 
-        setLoading(true);
+            setLoading(true);
         try {
-            const response = await produtosService.listar();
-            const foundProduto = response.find(p => p.id.toString() === produtoId);
-            if (foundProduto) {
-                setProduto(foundProduto);
-                setErrors({});
-            } else {
-                Alert.alert('❌ Não Encontrado', `Nenhum produto encontrado com ID: ${produtoId}`);
-                setProduto(null);
-            }
+            const foundProduto = await firebaseProdutosService.obterPorId(produtoId);
+            setProduto(foundProduto);
+            setErrors({});
         } catch (error) {
             Alert.alert('❌ Erro ao Carregar', `Motivo: ${error.message || 'Falha ao carregar produto'}`);
+            setProduto(null);
         } finally {
             setLoading(false);
         }
@@ -46,7 +41,7 @@ export default function ExcluirProduto() {
                     onPress: async () => {
                         setLoading(true);
                         try {
-                            await produtosService.deletar(produtoId);
+                            await firebaseProdutosService.deletar(produtoId);
                             Alert.alert(
                                 '✅ Sucesso',
                                 `Produto "${produto.nome}" foi excluído com sucesso!`,

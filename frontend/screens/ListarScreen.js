@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import ListarUsuarios from '../componentes/listarUsuarios';
 import styles from '../estilos/estilos';
 import Header from '../componentes/header';
-import { usuariosService } from '../../services/backend/usuariosService';
+import { firebaseUsuariosService as usuariosService } from '../../services/firebase/firebaseUsuariosService';
 
 export default function ListarScreen({ navigation }) {
   const [users, setUsers] = useState([]);
@@ -49,12 +49,18 @@ export default function ListarScreen({ navigation }) {
   return (
     <View style={styles.screenWrapper}>
       <Header title="Usuários" subtitle={`Total: ${users.length} registros`} />
-      <ListarUsuarios
-        db={users}
-        loading={loading}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-      />
+      <ScrollView
+        style={[styles.container, { paddingHorizontal: 16 }]}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 80 }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
+        <ListarUsuarios
+          db={users}
+          loading={loading}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
+      </ScrollView>
       <TouchableOpacity
         style={[styles.button, { marginHorizontal: 16, marginBottom: 16 }]}
         onPress={() => navigation.goBack()}

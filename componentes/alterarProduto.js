@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
 import { useState } from "react";
-import { produtosService } from "../services/backend/produtosService";
+import { firebaseProdutosService } from "../services/firebase/firebaseProdutosService";
 
 export default function AlterarProduto({ initialId }) {
     const [produtoId, setProdutoId] = useState(initialId ? initialId.toString() : '');
@@ -18,22 +18,17 @@ export default function AlterarProduto({ initialId }) {
 
         setLoading(true);
         try {
-            const response = await produtosService.listar();
-            const foundProduto = response.find(p => p.id.toString() === produtoId);
-            if (foundProduto) {
-                setProduto({
-                    nome: foundProduto.nome,
-                    categoria: foundProduto.categoria,
-                    preco: foundProduto.preco.toString()
-                });
-                setLoaded(true);
-                setErrors({});
-            } else {
-                Alert.alert('Erro', 'Produto não encontrado');
-                setLoaded(false);
-            }
+            const foundProduto = await firebaseProdutosService.obterPorId(produtoId);
+            setProduto({
+                nome: foundProduto.nome,
+                categoria: foundProduto.categoria,
+                preco: foundProduto.preco.toString()
+            });
+            setLoaded(true);
+            setErrors({});
         } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar produto');
+            Alert.alert('Erro', 'Produto não encontrado ou erro ao carregar');
+            setLoaded(false);
         } finally {
             setLoading(false);
         }
@@ -59,7 +54,7 @@ export default function AlterarProduto({ initialId }) {
 
         setLoading(true);
         try {
-            await produtosService.atualizar(produtoId, {
+            await firebaseProdutosService.atualizar(produtoId, {
                 nome: produto.nome,
                 categoria: produto.categoria,
                 preco: parseFloat(produto.preco)
