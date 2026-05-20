@@ -11,8 +11,8 @@ export default function CardProduto({ props, onDelete, onEdit }) {
             <Text style={styles.cardLabel}>📦 Produto</Text>
             <Text style={styles.cardValue}>{props.nome}</Text>
 
-            <Text style={styles.cardLabel}>🏷️ Categoria</Text>
-            <Text style={styles.cardValue}>{props.categoria}</Text>
+            <Text style={styles.cardLabel}>🏷️ Descrição</Text>
+            <Text style={styles.cardValue}>{props.descricao}</Text>
 
             <Text style={styles.cardLabel}>💰 Preço</Text>
             <Text style={styles.price}>R$ {parseFloat(props.preco).toFixed(2)}</Text>

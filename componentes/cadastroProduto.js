@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { firebaseProdutosService } from "../services/firebase/firebaseProdutosService";
 
 export default function CadastroProduto() {
-    const [produto, setProduto] = useState({ nome: '', categoria: '', preco: '' });
+    const [produto, setProduto] = useState({ nome: '', descricao: '', preco: '' });
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
 
     const validateForm = () => {
         const newErrors = {};
         if (!produto.nome.trim()) newErrors.nome = 'Nome é obrigatório';
-        if (!produto.categoria.trim()) newErrors.categoria = 'Categoria é obrigatória';
+        if (!produto.descricao.trim()) newErrors.descricao = 'Descrição é obrigatória';
         if (!produto.preco.trim()) {
             newErrors.preco = 'Preço é obrigatório';
         } else if (isNaN(parseFloat(produto.preco)) || parseFloat(produto.preco) <= 0) {
@@ -28,11 +28,11 @@ export default function CadastroProduto() {
 
         setLoading(true);
         try {
-            console.log(' Enviando produto para Firebase:', { nome: produto.nome, categoria: produto.categoria, preco: produto.preco });
-            const resultado = await firebaseProdutosService.criar({ nome: produto.nome, categoria: produto.categoria, preco: parseFloat(produto.preco) });
+            console.log(' Enviando produto para Firebase:', { nome: produto.nome, descricao: produto.descricao, preco: produto.preco });
+            const resultado = await firebaseProdutosService.criar({ nome: produto.nome, descricao: produto.descricao, preco: parseFloat(produto.preco) });
             console.log('✅ Produto criado no Firebase:', resultado);
             Alert.alert('✓ Sucesso', 'Produto cadastrado com sucesso no Firebase!', [
-                { text: 'OK', onPress: () => setProduto({ nome: '', categoria: '', preco: '' }) }
+                { text: 'OK', onPress: () => setProduto({ nome: '', descricao: '', preco: '' }) }
             ]);
         } catch (error) {
             console.error('❌ Erro detalhado:', error);
@@ -63,18 +63,18 @@ export default function CadastroProduto() {
             />
             {errors.nome && <Text style={styles.errorText}>{errors.nome}</Text>}
 
-            <Text style={styles.cardLabel}>Categoria</Text>
+            <Text style={styles.cardLabel}>Descrição</Text>
             <TextInput
-                style={[styles.input, errors.categoria && styles.inputError]}
-                placeholder="Digite a categoria do produto"
-                value={produto.categoria}
+                style={[styles.input, errors.descricao && styles.inputError]}
+                placeholder="Digite a descrição do produto"
+                value={produto.descricao}
                 onChangeText={(text) => {
-                    setProduto({ ...produto, categoria: text });
-                    if (errors.categoria) setErrors({ ...errors, categoria: '' });
+                    setProduto({ ...produto, descricao: text });
+                    if (errors.descricao) setErrors({ ...errors, descricao: '' });
                 }}
                 editable={!loading}
             />
-            {errors.categoria && <Text style={styles.errorText}>{errors.categoria}</Text>}
+            {errors.descricao && <Text style={styles.errorText}>{errors.descricao}</Text>}
 
             <Text style={styles.cardLabel}>Preço</Text>
             <TextInput
