@@ -1,9 +1,39 @@
-import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, Alert } from 'react-native';
+import { useEffect } from 'react';
 import ExcluirProduto from '../componentes/excluirProduto';
 import styles from '../estilos/estilos';
 import Header from '../componentes/header';
+import { useAuth } from '../contexto/useAuth';
 
 export default function ExcluirProdutoScreen({ navigation }) {
+  const { usuarioLogado, isFuncionario } = useAuth();
+
+  useEffect(() => {
+    // Verificar se usuário está logado
+    if (!usuarioLogado) {
+      Alert.alert(
+        '⚠️ Acesso Negado',
+        'Você precisa estar logado para acessar esta página.',
+        [{ text: 'OK', onPress: () => navigation.goBack() }]
+      );
+      return;
+    }
+
+    // Se não for funcionário, mostrar mensagem de acesso negado
+    if (!isFuncionario()) {
+      navigation.goBack();
+      Alert.alert(
+        '❌ Acesso Negado',
+        'Apenas funcionários podem remover produtos.'
+      );
+    }
+  }, [usuarioLogado, isFuncionario, navigation]);
+
+  // Se não for funcionário, não renderizar nada
+  if (!isFuncionario()) {
+    return null;
+  }
+
   return (
     <View style={styles.screenWrapper}>
       <Header title="Excluir Produto" subtitle="Remove um produto do sistema" />

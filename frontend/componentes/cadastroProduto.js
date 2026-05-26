@@ -1,6 +1,6 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { firebaseProdutosService } from "../../services/firebase/firebaseProdutosService.js";
 
 export default function CadastroProduto() {
@@ -19,7 +19,7 @@ export default function CadastroProduto() {
     const adicionarProduto = async () => {
         const newErrors = validateForm();
         setErrors(newErrors);
-        
+
         if (Object.keys(newErrors).length > 0) return;
 
         setLoading(true);
@@ -106,3 +106,4 @@ export default function CadastroProduto() {
         </View>
     );
 }
+ 

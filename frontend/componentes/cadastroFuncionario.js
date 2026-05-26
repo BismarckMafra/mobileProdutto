@@ -1,10 +1,10 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import styles from "../estilos/estilos";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { firebaseUsuariosService as usuariosService } from "../../services/firebase/firebaseUsuariosService";
 
 export default function CadastroFuncionario() {
-    const [user, setUser] = useState({ nome: '', email: '', senha: '' , cargo: '' });
+    const [user, setUser] = useState({ nome: '', email: '', senha: '', cargo: '' });
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -21,7 +21,7 @@ export default function CadastroFuncionario() {
     const adicionarUsuario = async () => {
         const newErrors = validateForm();
         setErrors(newErrors);
-        
+
         if (Object.keys(newErrors).length > 0) return;
 
         setLoading(true);
